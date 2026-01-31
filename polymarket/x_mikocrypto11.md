@@ -95,6 +95,110 @@ Tweet: https://x.com/Mikocrypto11/status/2017193574064959813
 
 ---
 
+## 2026-01-30 — Weather markets: probability is often "already determined" (model edge)
+Tweet: https://x.com/Mikocrypto11/status/2017183003965886765
+
+**Theme / claim**
+- Argues Polymarket isn’t “just gambling” because some markets (esp. weather) have strong signal: probability can be estimated tightly using ensembles of weather models.
+
+**Actionable idea**
+- Treat some verticals as *data/forecast trading* rather than opinion:
+  - build a pipeline to map a market’s condition (city/date/threshold) → external forecast distribution
+  - trade when Polymarket price deviates from model-implied probability beyond a buffer.
+
+**Risks / unknowns**
+- Need reliable parsing of market parameters (location, date, threshold).
+- Model error + last-minute forecast updates; liquidity may be thin.
+
+**Watcher implementation**
+- Extend `yn_watch.py` (weather) with parameter extraction + “mispricing vs model” alert.
+
+---
+
+## 2026-01-30 — Repeated weather-focused wallet (London) — rationale expansion
+Tweet: https://x.com/Mikocrypto11/status/2017168410401190301
+
+**Theme / claim**
+- Reinforces the idea that a weather-specialist can generate strong returns with low drawdown.
+
+**Actionable idea**
+- Build "vertical specialist" watchlists:
+  - detect wallets with high concentration in a topic
+  - when they open positions in new markets, alert.
+
+**Watcher implementation**
+- Wallet/topic clustering + alerts for new entries.
+
+---
+
+## 2026-01-30 — $2.7M long-term stable trader (discipline/repetition)
+Tweet: https://x.com/Mikocrypto11/status/2017157838217630206
+
+**Theme / claim**
+- Highlights a large, stable PnL achieved by repeatedly executing one disciplined play (not one-off bets).
+
+**Actionable idea**
+- In strategy research, prioritize repeatable templates:
+  - same market type
+  - similar holding horizon
+  - consistent sizing rules
+
+**Watcher implementation**
+- Template detection over market metadata (question patterns, time windows) + performance tracking.
+
+---
+
+## 2026-01-30 — Short-horizon crypto Up/Down markets (15-min) with big PnL
+Tweet: https://x.com/Mikocrypto11/status/2017143493727248827
+
+**Theme / claim**
+- A trader focuses on BTC/ETH/SOL 15-min Up/Down markets; more like microstructure trading than event prediction.
+
+**Actionable idea**
+- Treat these as *short-dated event markets* with continuous updates:
+  - potential edges: latency to underlying spot moves, spread capture, mean reversion around strikes.
+
+**Risks / unknowns**
+- Highly competitive; adverse selection severe; fees dominate if not careful.
+
+**Watcher implementation**
+- Watch for new short-dated crypto markets + abnormal spread/volume spikes.
+
+---
+
+## 2026-01-30 — 6 dollars → millions: "script writer" (automation edge)
+Tweet: https://x.com/Mikocrypto11/status/2017129218195481074
+
+**Theme / claim**
+- Claims extreme growth driven by automation/structure rather than “inside info”.
+
+**Actionable idea**
+- Automation advantages:
+  - scanning many markets
+  - instant execution when edge appears
+  - consistent risk sizing
+
+**Watcher implementation**
+- Reinforces building robust scanners + fast alerting/exec framework (paper-first).
+
+---
+
+## 2026-01-29 — Political event trade: US shutdown bet with large floating PnL
+Tweet: https://x.com/Mikocrypto11/status/2016879001311047882
+
+**Theme / claim**
+- Example of large-size event trade; suggests some profits come from managing price swings before resolution.
+
+**Actionable idea**
+- Add “resolution proximity + volatility” monitoring:
+  - track markets near key decision times
+  - alert on large size entering + sudden price jumps.
+
+**Watcher implementation**
+- Size/volume spike watcher for event markets.
+
+---
+
 ## 2025-12-21 — “Arbitrage monsters” / Buy-both (YES+NO) < 1
 Tweet: https://x.com/Mikocrypto11/status/2002662116692566227
 
