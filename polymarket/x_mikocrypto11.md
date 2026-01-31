@@ -291,6 +291,124 @@ Tweet: https://x.com/Mikocrypto11/status/2016458732142830035
 
 ---
 
+## 2026-01-27 — Weather-only trader “HondaCivic” (high-prob + occasional deep mispricing)
+Tweet: https://x.com/Mikocrypto11/status/2016131575881335101
+
+**Theme / claim**
+- A weather-only trader allegedly earns by mostly buying 70–90c high-prob events, occasionally buying 1–10c “obvious undervalued” lines.
+
+**Actionable idea**
+- Two-mode playbook for weather markets:
+  1) **High-prob grind**: enter when model probability is very high and price still below model (after fees buffer).
+  2) **Deep mispricing pounce**: look for extreme tails priced too cheap vs model.
+
+**Risks / unknowns**
+- Without model + liquidity checks this becomes pure gambling.
+
+**Watcher implementation**
+- Weather watcher with:
+  - parameter extraction
+  - model probability estimate (future)
+  - thresholds for “high-prob” and “deep tail” alerts
+
+---
+
+## 2026-01-27 — “3–5% near risk-free” structural arb claim (needs specifics)
+Tweet: https://x.com/Mikocrypto11/status/2016120251847766184
+
+**Theme / claim**
+- Claims a repeatable 3–5% per-trade “near risk-free” strategy; emphasizes not direction betting, but structural arb.
+
+**Actionable idea**
+- Treat as hypothesis bucket until details are extracted from the thread:
+  - likely candidates: complement arb, cross-market constraints, ladder/range inconsistencies, or incentive farming.
+
+**Watcher implementation**
+- Keep a “to-verify” list: once the thread reveals mechanics, we implement the corresponding watcher.
+
+---
+
+## 2026-01-27 — New leaderboard name “Maze8” (rapid +$557k)
+Tweet: https://x.com/Mikocrypto11/status/2016106662218850415
+
+**Theme / claim**
+- New wallet appears and quickly outperforms long-term top wallets.
+
+**Actionable idea**
+- Leaderboard anomaly detection:
+  - detect new accounts with unusually steep equity curve
+
+**Watcher implementation**
+- If we can access leaderboard data: alert on “new entrant with >X PnL in Y days”.
+
+---
+
+## 2026-01-27 — Dominant account “beachboy4” (top 8 monthly PnL slots)
+Tweet: https://x.com/Mikocrypto11/status/2016092569701171259
+
+**Theme / claim**
+- Extreme repeated gains; suggests it may be mechanism/incentive/structure driven.
+
+**Actionable idea**
+- Identify whether returns come from:
+  - incentive farming
+  - structured arb
+  - microstructure edge
+
+**Watcher implementation**
+- Add “whale wallet watchlist” module: when these wallets open positions, alert with market links.
+
+---
+
+## 2026-01-27 — “Polymarket bot case study” & “swisstony” (automation)
+Tweets:
+- https://x.com/Mikocrypto11/status/2016078648785481872
+- https://x.com/Mikocrypto11/status/2016076344707395845
+
+**Theme / claim**
+- Emphasizes that profitable bots are already running; highlights a trader allegedly turning $5 into $3.7M.
+
+**Actionable idea**
+- The durable edge is usually *system design*:
+  - scanning coverage
+  - execution speed
+  - risk control
+  - avoiding stale quotes
+
+**Watcher implementation**
+- Reinforces our roadmap: watchers → paper exec → live with kill switches.
+
+---
+
+## 2026-01-26 — BTC-only progression & “safer than CEX” claim
+Tweet: https://x.com/Mikocrypto11/status/2015794355991421438
+
+**Theme / claim**
+- Argues trading BTC on Polymarket (as prediction markets) can be “safer” than leveraged CEX trading (less liquidation mechanics), and shows an example of grinding up.
+
+**Actionable idea**
+- If true, these markets may support lower-vol execution strategies:
+  - small edges, controlled downside, no leverage liquidation
+
+**Watcher implementation**
+- Crypto-market watcher: identify new BTC markets and track spreads/volatility regimes.
+
+---
+
+## 2026-01-26 — “Betting on yourself” / probability loophole (needs thread)
+Tweet: https://x.com/Mikocrypto11/status/2015781771065884791
+
+**Theme / claim**
+- Mentions a probability-theory “loophole” and a strategy described as “betting on yourself”.
+
+**Actionable idea**
+- Mark for deep extraction: likely involves multi-outcome or self-hedging via correlated markets.
+
+**Watcher implementation**
+- Add to “to-verify” list; implement once mechanics are clarified.
+
+---
+
 ## 2025-12-21 — “Arbitrage monsters” / Buy-both (YES+NO) < 1
 Tweet: https://x.com/Mikocrypto11/status/2002662116692566227
 
