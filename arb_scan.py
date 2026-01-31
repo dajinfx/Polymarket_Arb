@@ -37,7 +37,12 @@ def _to_float(x: Any) -> Optional[float]:
 
 
 def is_candidate_market(m: dict) -> bool:
-    """Structural filter: active + not archived + has Yes/No outcomes."""
+    """Cheap pre-filter for the /markets list response.
+
+    Important: the /markets list endpoint often does *not* include full outcome info.
+    So we only filter by market state here. The Yes/No check happens after fetching
+    /markets/{id}.
+    """
     if not isinstance(m, dict):
         return False
     if not m.get("active", False):
@@ -46,10 +51,7 @@ def is_candidate_market(m: dict) -> bool:
         return False
     if m.get("closed", False):
         return False
-
-    outcomes = m.get("outcomes", [])
-    names = {o.get("name") for o in outcomes if isinstance(o, dict)}
-    return {"Yes", "No"}.issubset(names)
+    return True
 
 
 async def fetch_json(session: aiohttp.ClientSession, url: str, *, params: dict | None = None) -> Any:
@@ -139,7 +141,14 @@ class ArbHit:
         return f"https://polymarket.com/market/{self.slug}"
 
 
-async def scan(session: aiohttp.ClientSession, *, min_edge: float, limit: Optional[int], concurrency: int) -> List[ArbHit]:
+async def scan(
+    session: aiohttp.ClientSession,
+    *,
+    min_edge: float,
+    limit: Optional[int],
+    concurrency: int,
+    verbose: bool = True,
+) -> List[ArbHit]:
     # If limit is set, we can stop pagination early for faster iteration.
     all_markets = await load_all_markets(session, max_markets=limit)
     candidates = [m for m in all_markets if is_candidate_market(m)]
@@ -147,7 +156,18 @@ async def scan(session: aiohttp.ClientSession, *, min_edge: float, limit: Option
     if limit is not None:
         candidates = candidates[:limit]
 
+    if verbose:
+        lim_txt = f" (limit={limit})" if limit is not None else ""
+        print(f"Loaded {len(all_markets)} markets{lim_txt} from /markets")
+        print(f"Candidate markets to detail-fetch: {len(candidates)}")
+
     sem = asyncio.Semaphore(concurrency)
+    lock = asyncio.Lock()
+    stats = {
+        "detail_ok": 0,      # /markets/{id} fetched and parsed
+        "yesno_ok": 0,       # had both Yes and No prices
+        "errors": 0,         # request or parse failures
+    }
 
     async def one(m: dict) -> Optional[ArbHit]:
         market_id = str(m.get("id"))
@@ -160,17 +180,24 @@ async def scan(session: aiohttp.ClientSession, *, min_edge: float, limit: Option
         async with sem:
             try:
                 res = await fetch_market_prices(session, market_id)
+                async with lock:
+                    stats["detail_ok"] += 1
             except Exception:
+                async with lock:
+                    stats["errors"] += 1
                 return None
 
         if not res:
             return None
 
+        async with lock:
+            stats["yesno_ok"] += 1
+
         yes, no = res
         s = yes + no
 
-        # Simple risk-free buy-both arb: pay s now, receive 1 at settlement.
-        # Profit (ignoring fees) = 1 - s.
+        # Simple risk-free buy-both arb: pay (yes+no) now, receive 1 at settlement.
+        # Profit (ignoring fees) = 1 - (yes+no).
         edge = 1.0 - s
         if edge >= min_edge:
             return ArbHit(
@@ -188,6 +215,16 @@ async def scan(session: aiohttp.ClientSession, *, min_edge: float, limit: Option
     hits = await asyncio.gather(*(one(m) for m in candidates))
     out = [h for h in hits if h is not None]
     out.sort(key=lambda x: x.edge, reverse=True)
+
+    if verbose:
+        print(
+            "Scan stats: "
+            f"detail_ok={stats['detail_ok']}  "
+            f"yesno_ok={stats['yesno_ok']}  "
+            f"errors={stats['errors']}  "
+            f"hits(edge>={min_edge:.4f})={len(out)}"
+        )
+
     return out
 
 
@@ -211,6 +248,7 @@ def main() -> None:
     ap.add_argument("--limit", type=int, default=None, help="Optional cap on number of markets to scan.")
     ap.add_argument("--concurrency", type=int, default=30, help="Concurrent market detail requests.")
     ap.add_argument("--top", type=int, default=30, help="How many hits to print.")
+    ap.add_argument("--quiet", action="store_true", help="Suppress progress counts.")
     args = ap.parse_args()
 
     async def runner():
@@ -220,6 +258,7 @@ def main() -> None:
                 min_edge=float(args.min_edge),
                 limit=args.limit,
                 concurrency=int(args.concurrency),
+                verbose=not bool(args.quiet),
             )
             render(hits, top=int(args.top))
 
