@@ -199,6 +199,98 @@ Tweet: https://x.com/Mikocrypto11/status/2016879001311047882
 
 ---
 
+## 2026-01-29 — “98% winrate” trader focuses on one market type
+Tweet: https://x.com/Mikocrypto11/status/2016750668690968883
+
+**Theme / claim**
+- A trader shows extremely high win-rate and tiny historical losses, allegedly because they *only participate in a single class of markets* (not because they predict better).
+
+**Actionable idea**
+- Identify “structural edge” market types:
+  - markets where outcome probability is near-certain (e.g., already-known info, near-resolution, deterministic rule triggers)
+  - or where there is persistent micro-edge (spread/incentives).
+
+**Risks / unknowns**
+- Need to verify winrate and losses from real trade history (avoid storytelling bias).
+
+**Watcher implementation**
+- Market classifier for “near-deterministic” setups + alert when new such markets appear.
+
+---
+
+## 2026-01-29 — New wallet: crypto markets, 8,700+ trades, monthly +$400k (15-min focus)
+Tweet: https://x.com/Mikocrypto11/status/2016772995512226275
+
+**Theme / claim**
+- Reinforces high-frequency short-horizon crypto trading on Polymarket.
+
+**Actionable idea**
+- For short-dated up/down markets:
+  - watch underlying spot movement + Polymarket price response
+  - detect delayed repricing / stale quotes.
+
+**Watcher implementation**
+- “Spot vs market” lag watcher (needs spot feed later) + spread/volume spike alerts.
+
+---
+
+## 2026-01-29 — “$100/day possible?” example: BTC/ETH focus to ~$690k
+Tweet: https://x.com/Mikocrypto11/status/2016800986883408175
+
+**Theme / claim**
+- Suggests consistent small daily gains via narrow focus and repetition.
+
+**Actionable idea**
+- Emphasize repeatable templates + strict sizing rather than hero bets.
+
+**Watcher implementation**
+- Template + cadence analytics for wallet behavior (open/close timing, hold duration, avg edge).
+
+---
+
+## 2026-01-29 — Weather trader: cumulative +$64k; extreme ROI examples are structure/model-driven
+Tweet: https://x.com/Mikocrypto11/status/2016818603098853612
+
+**Theme / claim**
+- Weather markets can produce large returns with small stakes when probability is mispriced.
+
+**Actionable idea**
+- Build weather-model mispricing signals (same as earlier), add liquidity/market-quality filters.
+
+**Watcher implementation**
+- Weather market parameter extraction + mispricing alert.
+
+---
+
+## 2026-01-29 — Another London-weather wallet: 1,400+ predictions, concentrated markets
+Tweet: https://x.com/Mikocrypto11/status/2016787363922661405
+
+**Theme / claim**
+- Concentration + repetition in weather vertical.
+
+**Actionable idea**
+- “Vertical specialist” detection (topic concentration) + follow alerts.
+
+**Watcher implementation**
+- Wallet clustering by market text + alert on entries.
+
+---
+
+## 2026-01-28 — Large whale event trade: $2,000,000 NO at 99.9¢ (shutdown market)
+Tweet: https://x.com/Mikocrypto11/status/2016458732142830035
+
+**Theme / claim**
+- Very large size enters near-certain price region (99.9¢), implying either near-deterministic belief or structural play.
+
+**Actionable idea**
+- “Near-1.0 price” markets:
+  - if liquidity allows, small edge strategies exist but tail risk (rule risk) dominates.
+
+**Watcher implementation**
+- Alerts for markets where best prices are >0.99 or <0.01 + sudden size spikes.
+
+---
+
 ## 2025-12-21 — “Arbitrage monsters” / Buy-both (YES+NO) < 1
 Tweet: https://x.com/Mikocrypto11/status/2002662116692566227
 
